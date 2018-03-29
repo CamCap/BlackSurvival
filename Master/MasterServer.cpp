@@ -20,22 +20,25 @@ void MasterServer::ServerAcceptRoutinue(SOCKET socket, SOCKADDR_IN sockaddr)
 
 	if (server != NULL)
 	{
-		if (server->InitPeer(socket, sockaddr, IOCP::g_userID++) == true)
+		ServerContainer::GetInstance()->PushRogueServer(server);
+
+		if (IOCP::GetInstance()->RegisterCompletionPort(socket, server) == true)
 		{
-			ServerContainer::GetInstance()->PushRogueServer(server);
+			server->InitPeer(socket, sockaddr, IOCP::g_userID++);
 			GameMessageManager::Instnace()->SendGameMessage(GM_ACCEPTUPEER, 0, 0, NULL);
 		}
 		else
 		{
-			server->ReleaseSocket();
-			server_container->PushServer(server);
+
 		}
-	}
+	}	
 }
 
-void MasterServer::ServerWorkRoutinue(SOCKET_CONTEXT* pCompletionKey, IO_OVERLAPPED* pOverlapped, int DwNumberBytes)
+void MasterServer::ServerWorkRoutinue(SPeer* pCompletionKey, IO_OVERLAPPED* pOverlapped, int DwNumberBytes)
 {
-	Server* server = ServerContainer::GetInstance()->FindPeer(pCompletionKey->m_puser->GetId());
+	Server* server = ServerContainer::GetInstance()->FindPeer(pCompletionKey->GetId());
+
+	if (server == NULL) return;
 
 	if (pOverlapped->io_type == IO_RECV)
 	{
@@ -64,9 +67,10 @@ void GameMessageProcedure(DWORD msg, DWORD wParam, DWORD lParam, const char * pP
 	case GM_DISCONNECTUSER:
 	{
 		//ServerContainer::GetInstance()->DisConnect((SOCKET_CONTEXT*)wParam);
-		SOCKET_CONTEXT* context = (SOCKET_CONTEXT*)wParam;
+		//SOCKET_CONTEXT* context = (SOCKET_CONTEXT*)wParam;
 		SPeer* peer = (SPeer*)wParam;
-		Server* server = (Server*)wParam;
+		Server* server = ServerContainer::GetInstance()->FindPeer(peer->GetId());
+		if (server == NULL) break;
 		char message[500];
 		sprintf_s(message, "Disconnect Server : %s", Server::SERVERTYPEToString(server->GetType()));
 		SServerDlg::GetInstance()->SetMessage(message);
