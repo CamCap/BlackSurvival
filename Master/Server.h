@@ -9,7 +9,7 @@ class Server
 {
 public:
 	DECLARE_ENUM( SERVERTYPE,
-	
+		NONE,
 		LOGIN,
 		MATCH,
 		INGAME
@@ -20,7 +20,7 @@ public:
 
 	SERVERTYPE GetType() { return m_type; }
 	std::string GetName() { return m_name; }
-	int GetId() { return m_id; }
+
 private:
 	virtual void PacketProcess(BTZPacket* packet) {}
 public:

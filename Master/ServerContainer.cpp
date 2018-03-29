@@ -1,10 +1,11 @@
 #include "stdafx.h"
-#include "ServerManager.h"
+#include "ServerContainer.h"
 #include "MasterPacket.h"
 
 ServerContainer* ServerContainer::m_instance = NULL;
-
+ 
 ServerContainer::ServerContainer()
+	:SPeerContainer<Server>()
 {
 }
 
@@ -71,6 +72,40 @@ void ServerContainer::AuthServer(Server * server)
 	if (IsCurrentServer(server->GetType()) == false)
 	{
 		AddAuthServer(server->GetId(), server);
+	}
+}
+
+void ServerContainer::PushRogueServer(Server * server)
+{
+	if (server == NULL) return;
+
+	CSLOCK(m_cs)
+	{
+		VEC_CONTANINER::iterator it = std::find(m_vecRogueServer.begin(), m_vecRogueServer.end(), server);
+
+		if (it != m_vecRogueServer.end())
+			return;
+
+		m_vecRogueServer.push_back(server);
+	}
+}
+
+void ServerContainer::PopRogueServer()
+{
+	if (m_vecRogueServer.size() == 0)
+	{
+		//UnLock();
+		return;
+	}
+
+	Server* value = NULL;
+
+	CSLOCK(m_cs)
+	{
+		VEC_CONTANINER::iterator it = m_vecRogueServer.begin();
+
+		value = *it;
+		m_vecRogueServer.erase(it);
 	}
 }
 

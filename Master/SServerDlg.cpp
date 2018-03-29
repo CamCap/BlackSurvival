@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "SServerDlg.h"
-#include "ServerManager.h"
+#include "ServerContainer.h"
 #include "IOCP.h"
 #include "resource.h"
 #include "GameMessage.h"

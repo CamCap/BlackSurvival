@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "MasterServer.h"
-#include "ServerManager.h"
+#include "ServerContainer.h"
 #include "SServerDlg.h"
 
 MasterServer::MasterServer()
@@ -14,35 +14,41 @@ MasterServer::~MasterServer()
 
 void MasterServer::ServerAcceptRoutinue(SOCKET socket, SOCKADDR_IN sockaddr)
 {
-
-	SOCKET_CONTEXT socket_context;
 	ServerContainer* server_container = ServerContainer::GetInstance();
 
 	Server* server = server_container->PopServer();
 
 	if (server != NULL)
 	{
-		socket_context.m_puser = server;
-		socket_context.m_socket = socket;
-		socket_context.m_addr = sockaddr;
-
-		if (IOCP::GetInstance()->RegisterCompletionPort(&socket_context) == false)
+		if (server->InitPeer(socket, sockaddr, IOCP::g_userID++) == true)
 		{
-
+			ServerContainer::GetInstance()->PushRogueServer(server);
+			GameMessageManager::Instnace()->SendGameMessage(GM_ACCEPTUPEER, 0, 0, NULL);
 		}
 		else
 		{
-			server->InitPeer(socket, sockaddr, IOCP::g_userID++);
-
-			ServerContainer::GetInstance()->PushServer(server);
-			비인증된 서버를 인증한 후에 컨테이너에 넣어야될 것같은데...
-			GameMessageManager::Instnace()->SendGameMessage(GM_ACCEPTUPEER, 0, 0, NULL);
+			server->ReleaseSocket();
+			server_container->PushServer(server);
 		}
 	}
 }
 
-void MasterServer::ServerWorkRoutinue()
+void MasterServer::ServerWorkRoutinue(SOCKET_CONTEXT* pCompletionKey, IO_OVERLAPPED* pOverlapped, int DwNumberBytes)
 {
+	Server* server = ServerContainer::GetInstance()->FindPeer(pCompletionKey->m_puser->GetId());
+
+	if (pOverlapped->io_type == IO_RECV)
+	{
+		server->RecvPacket(DwNumberBytes);
+	}
+	else if (pOverlapped->io_type == IO_SENDING)
+	{
+		server->CheckSendPacket();
+	}
+	else // IO_NONE 혹은 에러
+	{
+
+	}
 }
 
 
@@ -57,7 +63,7 @@ void GameMessageProcedure(DWORD msg, DWORD wParam, DWORD lParam, const char * pP
 		break;
 	case GM_DISCONNECTUSER:
 	{
-		IOCP::GetInstance()->PostCompletionStatus(wParam, 0, (OVERLAPPED*)lParam);
+		//ServerContainer::GetInstance()->DisConnect((SOCKET_CONTEXT*)wParam);
 		SOCKET_CONTEXT* context = (SOCKET_CONTEXT*)wParam;
 		SPeer* peer = (SPeer*)wParam;
 		Server* server = (Server*)wParam;

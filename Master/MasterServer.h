@@ -8,7 +8,7 @@ class MasterServer
 {
 public:
 	static void ServerAcceptRoutinue(SOCKET socket, SOCKADDR_IN sockaddr);
-	static void ServerWorkRoutinue();
+	static void ServerWorkRoutinue(SOCKET_CONTEXT* pCompletionKey, IO_OVERLAPPED* pOverlapped, int DwNumberBytes);
 public:
 	MasterServer();
 	~MasterServer();

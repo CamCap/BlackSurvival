@@ -12,7 +12,9 @@ BOOL Server::InitServer(unsigned short id, std::string name, SERVERTYPE type)
 }
 
 Server::Server()
+	:m_type(SERVERTYPE::NONE)
 {
+	m_id = -1;
 }
 
 
