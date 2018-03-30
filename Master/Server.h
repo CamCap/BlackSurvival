@@ -20,9 +20,10 @@ public:
 
 	SERVERTYPE GetType() { return m_type; }
 	std::string GetName() { return m_name; }
+	void OnPingCheck();
 
 private:
-	virtual void PacketProcess(BTZPacket* packet) {}
+	virtual void PacketProcess(BTZPacket* packet);
 public:
 	Server();
 	virtual ~Server();
@@ -30,5 +31,7 @@ public:
 private:
 	std::string m_name;
 	SERVERTYPE m_type;
+
+	DWORD m_recvtime;
 };
 

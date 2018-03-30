@@ -12,4 +12,12 @@ struct PING_Packet
 
 #define PACKET_ID_PING 0x10000000
 
+struct AUTH_Packet
+	:public BTZPacket
+{
+	int type;
+};
+#define PACKET_ID_AUTH 0x10000001
+
 #pragma pack(pop)
+

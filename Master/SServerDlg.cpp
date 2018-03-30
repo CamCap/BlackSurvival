@@ -42,7 +42,7 @@ void SServerDlg::OnInitServer(HWND hWnd)
 
 	m_iocp = IOCP::GetInstance();
 	m_iocp->CreateIOCP(&MasterServer::ServerAcceptRoutinue, &MasterServer::ServerWorkRoutinue); //이거 accept랑 workthread 좀 수정하자
-
+	//->CreateIOCP()
 	m_server = ServerContainer::GetInstance();
 	HANDLE handle = CreateThread(NULL, 0, GameMessageManager::GameMsgLoop, NULL, 0, NULL);
 
@@ -138,7 +138,7 @@ INT_PTR CALLBACK ServerProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 	case WM_TIMER:
 		SServerDlg::GetInstance()->SetRunTime();
-		//GameMessageManager::Instnace()->SendGameMessage(GM_TIMER, GetTickCount(), 0, NULL);
+		GameMessageManager::Instnace()->SendGameMessage(GM_TIMER, GetTickCount(), 0, NULL);
 		break;
 	default:
 		break;

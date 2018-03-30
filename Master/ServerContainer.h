@@ -15,6 +15,8 @@ public:
 	bool IsCurrentServer(Server::SERVERTYPE type);
 	void AuthServer(Server* server);
 
+	Server* FindServer(int id);
+
 	void RemoveAuthServer(int key) { this->MapPopBack(key); }
 	void PushServer(Server* server) { this->VecPushBack(server); }
 	void PushRogueServer(Server* server);

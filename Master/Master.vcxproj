@@ -152,6 +152,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="MasterHeader.h" />
     <ClInclude Include="MasterPacket.h" />
     <ClInclude Include="MasterServer.h" />
     <ClInclude Include="resource.h" />

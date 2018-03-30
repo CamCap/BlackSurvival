@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "ServerContainer.h"
 #include "MasterPacket.h"
+#include <algorithm>
+#include "MasterHeader.h"
 
 ServerContainer* ServerContainer::m_instance = NULL;
  
@@ -24,6 +26,11 @@ ServerContainer* ServerContainer::GetInstance()
 
 void ServerContainer::ServerCheckPing(DWORD tick)
 {
+	DWORD cur_tick = ::GetTickCount();
+	if (tick - m_tickPing < PING_CHECK_TIME)
+		return;
+
+
 	MAP_CONTANINER::iterator it = m_mapCon.begin();
 
 	Server* _server = NULL;
@@ -34,13 +41,13 @@ void ServerContainer::ServerCheckPing(DWORD tick)
 		if (_server == NULL)
 			continue;
 
-		PING_Packet ping_packet;
-		ping_packet.packet_id = PACKET_ID_PING;
-		ping_packet.packet_size = sizeof(PING_Packet);
-		ping_packet.respon = false;
-		ping_packet.respon_tick = tick;
+		//PING_Packet ping_packet;
+		//ping_packet.packet_id = PACKET_ID_PING;
+		//ping_packet.packet_size = sizeof(PING_Packet);
+		//ping_packet.respon = false;
+		//ping_packet.respon_tick = tick;
 
-		_server->Send(&ping_packet);
+		_server->OnPingCheck();
 	}
 }
 
@@ -73,6 +80,30 @@ void ServerContainer::AuthServer(Server * server)
 	{
 		AddAuthServer(server->GetId(), server);
 	}
+}
+
+Server * ServerContainer::FindServer(int id)
+{
+	Server * server = FindPeer(id);
+
+	if (server != NULL) return server;
+
+	CSLOCK(m_cs)
+	{
+		////현재 연결된 유저 목록에서 지우고...
+		//V::iterator it;
+		VEC_CONTANINER::iterator it = \
+			find_if(m_vecRogueServer.begin(), m_vecRogueServer.end(), \
+			[&](Server* server)->bool { return id == server->GetId(); } \
+		);
+
+		if (it != m_vecRogueServer.end())
+			server = *it;
+		else
+			server = NULL;
+	}
+
+	return server;
 }
 
 void ServerContainer::PushRogueServer(Server * server)

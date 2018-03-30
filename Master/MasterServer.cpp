@@ -20,23 +20,23 @@ void MasterServer::ServerAcceptRoutinue(SOCKET socket, SOCKADDR_IN sockaddr)
 
 	if (server != NULL)
 	{
-		ServerContainer::GetInstance()->PushRogueServer(server);
 
 		if (IOCP::GetInstance()->RegisterCompletionPort(socket, server) == true)
 		{
+			ServerContainer::GetInstance()->PushRogueServer(server);
 			server->InitPeer(socket, sockaddr, IOCP::g_userID++);
 			GameMessageManager::Instnace()->SendGameMessage(GM_ACCEPTUPEER, 0, 0, NULL);
 		}
 		else
 		{
-
+			server_container->PushServer(server);
 		}
 	}	
 }
 
 void MasterServer::ServerWorkRoutinue(SPeer* pCompletionKey, IO_OVERLAPPED* pOverlapped, int DwNumberBytes)
 {
-	Server* server = ServerContainer::GetInstance()->FindPeer(pCompletionKey->GetId());
+	Server* server = ServerContainer::GetInstance()->FindServer(pCompletionKey->GetId());
 
 	if (server == NULL) return;
 
