@@ -76,7 +76,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(HOMEPATH)\Source\Repos\SLibrary\Sin_Library;$(IncludePath)</IncludePath>
+    <IncludePath>$(HOMEPATH)\Source\Repos\SLibrary\Sin_Library;$(HOMEPATH)\Sin\SLibrary\Sin_Library;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -112,7 +112,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(HOMEPATH)\Source\Repos\SLibrary\LIB\LIB64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(HOMEPATH)\Source\Repos\SLibrary\LIB\LIB64;$(HOMEPATH)\Sin\SLibrary\LIB\LIB64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -157,7 +157,6 @@
     <ClInclude Include="MasterServer.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Server.h" />
-    <ClInclude Include="ServerContainer.h" />
     <ClInclude Include="SServerDlg.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -166,7 +165,6 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MasterServer.cpp" />
     <ClCompile Include="Server.cpp" />
-    <ClCompile Include="ServerContainer.cpp" />
     <ClCompile Include="SServerDlg.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

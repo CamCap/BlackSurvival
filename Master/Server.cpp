@@ -1,18 +1,7 @@
 #include "stdafx.h"
 #include "Server.h"
 #include "MasterPacket.h"
-#include "ServerContainer.h"
 #include "MasterHeader.h"
-
-
-BOOL Server::InitServer(unsigned short id, std::string name, SERVERTYPE type)
-{
-	m_id = id;
-	m_name = name;
-	m_type = type;
-
-	return 0;
-}
 
 void Server::PacketProcess(BTZPacket * packet)
 {
