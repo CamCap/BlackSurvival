@@ -34,6 +34,8 @@ public:
 private:
 	VEC_CONTANINER m_vecRogueServer; // 비인증 서버 목록
 
+	DWORD m_tickPing;
+
 	static ServerContainer* m_instance;
 };
 

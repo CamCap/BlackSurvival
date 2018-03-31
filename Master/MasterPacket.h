@@ -7,7 +7,6 @@ struct PING_Packet
 	:public BTZPacket
 {
 	bool respon;
-	DWORD respon_tick;
 };
 
 #define PACKET_ID_PING 0x10000000

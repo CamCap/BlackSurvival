@@ -26,10 +26,10 @@ ServerContainer* ServerContainer::GetInstance()
 
 void ServerContainer::ServerCheckPing(DWORD tick)
 {
-	DWORD cur_tick = ::GetTickCount();
 	if (tick - m_tickPing < PING_CHECK_TIME)
 		return;
-
+	
+	m_tickPing = tick;
 
 	MAP_CONTANINER::iterator it = m_mapCon.begin();
 
@@ -47,30 +47,25 @@ void ServerContainer::ServerCheckPing(DWORD tick)
 		//ping_packet.respon = false;
 		//ping_packet.respon_tick = tick;
 
-		_server->OnPingCheck();
+		_server->OnPingCheck(m_tickPing);
 	}
 }
 
 bool ServerContainer::IsCurrentServer(Server::SERVERTYPE type)
-{
-	MAP_CONTANINER::iterator it = m_mapCon.begin();
-
+{	
 	Server* _server = NULL;
 
-	for (it; it != m_mapCon.end(); it++)
+	CSLOCK(m_cs)
 	{
-		_server = it->second;
-		if (_server == NULL)
-			continue;
-
-		Server::SERVERTYPE _type = _server->GetType();
-
-		if (_type == type)
-		{
+		MAP_CONTANINER::iterator it = std::find_if(m_mapCon.begin(), m_mapCon.end(), \
+			[&](MAP_CONTANINER::value_type itr)->bool {return itr.second->GetType() == type; }\
+		);
+		
+		if (it != m_mapCon.end())
 			return true;
-		}
-	}
-	
+		else
+			return false;
+	}	
 	return false;
 }
 
