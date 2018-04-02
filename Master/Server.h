@@ -7,16 +7,18 @@
 class MasterServer
 {
 public:
-	enum MASTERSERVERTYPE
+	union MASTERSERVERTYPE
 	{
+		SServer::SERVERTYPE server;
+		union MASTERSERVER
+		{
 
+		};
 	};
 
 public:
 
-	SERVERTYPE GetType() { return m_type; }
 	std::string GetName() { return m_name; }
-	void OnPingCheck(DWORD tick);
 
 private:
 	virtual void PacketProcess(BTZPacket* packet);
@@ -26,7 +28,6 @@ public:
 
 private:
 	std::string m_name;
-	SERVERTYPE m_type;
 
 	DWORD m_tickPing;
 };
