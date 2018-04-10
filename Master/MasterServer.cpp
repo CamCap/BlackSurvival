@@ -1,7 +1,8 @@
 #include "stdafx.h"
 #include "MasterServer.h"
-#include "ServerContainer.h"
 #include "SServerDlg.h"
+#include "SServerContainer.h"
+#include "Server.h"
 
 MasterServer::MasterServer()
 {
@@ -14,16 +15,15 @@ MasterServer::~MasterServer()
 
 void MasterServer::ServerAcceptRoutinue(SOCKET socket, SOCKADDR_IN sockaddr)
 {
-	ServerContainer* server_container = ServerContainer::GetInstance();
-
-	Server* server = server_container->PopServer();
+	SServerContainer* server_container = SServerContainer::GetInstance();
+	
+	SServer* server = server_container->PopServer();
 
 	if (server != NULL)
 	{
-
 		if (IOCP::GetInstance()->RegisterCompletionPort(socket, server) == true)
 		{
-			ServerContainer::GetInstance()->PushRogueServer(server);
+			server_container->PushRogueServer(server);
 			server->InitPeer(socket, sockaddr, IOCP::g_userID++);
 			GameMessageManager::Instnace()->SendGameMessage(GM_ACCEPTUPEER, 0, 0, NULL);
 		}

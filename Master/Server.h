@@ -2,33 +2,28 @@
 #include "ssocket.h"
 #include "header.h"
 
+
 #define SERVER_BUFF_SIZE 1024
 
-class MasterServer
+class Server
 {
 public:
-	union MASTERSERVERTYPE
-	{
-		SServer::SERVERTYPE server;
-		union MASTERSERVER
-		{
-
-		};
-	};
-
-public:
-
-	std::string GetName() { return m_name; }
+	DECLARE_ENUM(SERVERTYPE,
+	NONE,
+	LOGIN,
+	MATCH,
+	INGAME);
 
 private:
-	virtual void PacketProcess(BTZPacket* packet);
+	void PacketProcess(BTZPacket* packet);
 public:
-	MasterServer();
-	virtual ~MasterServer();
+	SERVERTYPE GetType() { return m_type; }
+	Server();
+	virtual ~Server();
 
 private:
-	std::string m_name;
+	SServer* m_server;
 
-	DWORD m_tickPing;
+	SERVERTYPE m_type;
 };
 
