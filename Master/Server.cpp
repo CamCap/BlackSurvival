@@ -31,7 +31,7 @@ void Server::PacketProcess(BTZPacket * packet)
 Server::Server()
 {
 	m_server = new SServer();
-	m_server->m_PP = PacketProcess;
+	m_server-> = PacketProcess;
 }
 
 Server::~Server()
