@@ -2,10 +2,13 @@
 #include "Server.h"
 #include "MasterPacket.h"
 #include "MasterHeader.h"
-#include "SServerContainer.h"
+#include "MasterServerContainer.h"
 
 void Server::PacketProcess(BTZPacket * packet)
 {
+	if(m_server->m_packetProcess == NULL)
+		m_server->m_packetProcess = std::bind(&Server::PacketProcess, this, packet);
+
 	switch (packet->packet_id)
 	{
 	case PACKET_ID_PING:
@@ -17,9 +20,9 @@ void Server::PacketProcess(BTZPacket * packet)
 	{
 		AUTH_Packet* auth_packet = (AUTH_Packet*)packet;
 	
-		if (SServerContainer::GetInstance()->IsCurrentServer((SServer::SERVERTYPE)auth_packet->type) == false)
+		if (MasterServerContainer::GetInstance()->IsCurrentServer((SERVERTYPE)auth_packet->type) == false)
 		{
-			SServerContainer::GetInstance()->AuthServer(m_server);
+			MasterServerContainer::GetInstance()->AuthServer(this);
 			m_type = (SERVERTYPE)auth_packet->type;
 		}	
 	}	break;
@@ -31,7 +34,6 @@ void Server::PacketProcess(BTZPacket * packet)
 Server::Server()
 {
 	m_server = new SServer();
-	m_server-> = PacketProcess;
 }
 
 Server::~Server()

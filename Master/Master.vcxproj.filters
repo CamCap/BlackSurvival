@@ -24,9 +24,6 @@
     <ClInclude Include="resource.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="SServerDlg.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Server.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -42,15 +39,18 @@
     <ClInclude Include="MasterServerContainer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="ServerDlg.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="IOCP.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="SServerDlg.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Server.cpp">
@@ -60,6 +60,12 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="MasterServerContainer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerDlg.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="IOCP.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

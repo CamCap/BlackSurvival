@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include <Windows.h>
 #include <stdio.h>
-#include "SServerDlg.h"
+#include "ServerDlg.h"
 #include "resource.h"
 
 #if defined(_WIN64)
@@ -14,7 +14,7 @@
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	SServerDlg* dlg = new SServerDlg();
+	ServerDlg* dlg = new ServerDlg();
 	dlg->StartServer(hInstance, IDD_MASTER_DIALOG, NULL);
 
 	delete dlg;

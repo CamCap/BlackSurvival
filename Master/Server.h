@@ -14,12 +14,19 @@ public:
 	MATCH,
 	INGAME);
 
-private:
+public:
 	void PacketProcess(BTZPacket* packet);
 public:
 	SERVERTYPE GetType() { return m_type; }
+
 	Server();
 	virtual ~Server();
+
+	void InitPeer(SOCKET socket, SOCKADDR_IN addr, int userid) { m_server->InitPeer(socket, addr, userid); }
+	void InitServer(std::string name) { m_server->SetName(name); }
+	BOOL RecvPacket(int DwNumberBytes) { return m_server->RecvPacket(DwNumberBytes); }
+	void CheckSendPacket() { m_server->CheckSendPacket(); }
+	int GetID() { m_server->GetId(); }
 
 private:
 	SServer* m_server;

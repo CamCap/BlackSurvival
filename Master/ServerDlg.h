@@ -1,18 +1,16 @@
 #pragma once
 #include "CriticalSection.h"
-
+#include "SSingleton.h"
 class IOCP;
 class GameMessageManager;
-class ServerContainer;
+class MasterServerContainer;
 
 //----------------------- timer id ----------------------//
 #define TIMER_ID                100
 
-class SServerDlg
+class ServerDlg
+	:public SSingleton<ServerDlg>
 {
-public:
-	static SServerDlg* GetInstance();
-
 protected:
 	HWND m_hWnd;
 	HWND m_hWndMsg;				// 메세지를 출력할 리스트 박스 핸들.
@@ -32,13 +30,13 @@ protected:
 
 	IOCP * m_iocp;
 	GameMessageManager* m_message;
-	ServerContainer* m_server;
+	MasterServerContainer* m_server;
 
 public:
 	void SetMessage(const char *s);
 
-	SServerDlg();
-	~SServerDlg();
+	ServerDlg();
+	~ServerDlg();
 
 	void OnInitServer(HWND hWnd);
 	void StartServer(HINSTANCE hInstance, int resID, HWND parentHwnd);
@@ -47,10 +45,9 @@ public:
 
 	HWND GetHWND() { return m_hWnd; }
 
+
 	void SetRunTime();
 //	void SetMessage()
-private:
-	static SServerDlg* m_instance;
 };
 
 INT_PTR CALLBACK ServerProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);

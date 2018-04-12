@@ -152,22 +152,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="IOCP.h" />
     <ClInclude Include="MasterHeader.h" />
     <ClInclude Include="MasterPacket.h" />
     <ClInclude Include="MasterServer.h" />
     <ClInclude Include="MasterServerContainer.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Server.h" />
-    <ClInclude Include="SServerDlg.h" />
+    <ClInclude Include="ServerDlg.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="IOCP.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MasterServer.cpp" />
     <ClCompile Include="MasterServerContainer.cpp" />
     <ClCompile Include="Server.cpp" />
-    <ClCompile Include="SServerDlg.cpp" />
+    <ClCompile Include="ServerDlg.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -181,6 +183,11 @@
   <ItemGroup>
     <Image Include="Master.ico" />
     <Image Include="small.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\SLibrary\Sin_Library\Sin_Library.vcxproj">
+      <Project>{cf4a0f86-5c5d-4ef5-a1ff-688adfd4d215}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

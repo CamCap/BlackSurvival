@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include "SServerDlg.h"
-#include "ServerContainer.h"
+#include "ServerDlg.h"
+#include "MasterServerContainer.h"
 #include "IOCP.h"
 #include "resource.h"
 #include "GameMessage.h"
@@ -9,26 +9,19 @@
 #include <cstringt.h>
 #include <atlstr.h>
 
-SServerDlg* SServerDlg::m_instance = NULL;
 
-SServerDlg::SServerDlg()
+ServerDlg::ServerDlg()
 {
 }
 
-SServerDlg::~SServerDlg()
+ServerDlg::~ServerDlg()
 {
 	KillTimer(m_hWnd, TIMER_ID);//종류//종류
+	m_iocp->CleanUp();
 }
 
-SServerDlg* SServerDlg::GetInstance()
-{
-	if (m_instance == NULL)
-		m_instance = new SServerDlg();
 
-	return m_instance;
-}
-
-void SServerDlg::OnInitServer(HWND hWnd)
+void ServerDlg::OnInitServer(HWND hWnd)
 {
 	m_hWnd = hWnd;
 
@@ -41,9 +34,12 @@ void SServerDlg::OnInitServer(HWND hWnd)
 	m_TimeCount = 0;
 
 	m_iocp = IOCP::GetInstance();
-	m_iocp->CreateIOCP(&MasterServer::ServerAcceptRoutinue, &MasterServer::ServerWorkRoutinue); //이거 accept랑 workthread 좀 수정하자
-	//->CreateIOCP()
-	m_server = ServerContainer::GetInstance();
+	m_iocp->SetRoutinue(MasterServer::ServerAcceptRoutinue, MasterServer::ServerWorkRoutinue, MasterServer::ServerDisConnectRoutinue);
+	m_iocp->CreateIOCP();
+
+	m_server = MasterServerContainer::GetInstance();
+	
+	m_message = GameMessageManager::GetInstance();
 	HANDLE handle = CreateThread(NULL, 0, GameMessageManager::GameMsgLoop, NULL, 0, NULL);
 
 	//////////////////////////////////////////
@@ -82,17 +78,17 @@ void SServerDlg::OnInitServer(HWND hWnd)
 	SetMessage(LPSTR(LPCTSTR(str)));
 }
 
-void SServerDlg::StartServer(HINSTANCE hInstance, int resID, HWND parentHwnd)
+void ServerDlg::StartServer(HINSTANCE hInstance, int resID, HWND parentHwnd)
 {
 	DialogBox(hInstance, MAKEINTRESOURCE(resID), parentHwnd, (DLGPROC)ServerProc);
 }
 
-void SServerDlg::SetMessage(const char *s)
+void ServerDlg::SetMessage(const char *s)
 {
 	SendMessage(m_hWndMsg, LB_ADDSTRING, (WPARAM)0, (LPARAM)s);
 }
 
-void SServerDlg::SetRunTime()
+void ServerDlg::SetRunTime()
 {
 	m_TimeCount++;
 	if (m_TimeCount == 6)
@@ -123,7 +119,7 @@ INT_PTR CALLBACK ServerProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	switch (uMsg)
 	{
 	case WM_INITDIALOG:
-		SServerDlg::GetInstance()->OnInitServer(hWnd);
+		ServerDlg::GetInstance()->OnInitServer(hWnd);
 		break;
 	case WM_QUIT:
 		PostQuitMessage(0);
@@ -137,8 +133,8 @@ INT_PTR CALLBACK ServerProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 	case WM_TIMER:
-		SServerDlg::GetInstance()->SetRunTime();
-		GameMessageManager::Instnace()->SendGameMessage(GM_TIMER, GetTickCount(), 0, NULL);
+		ServerDlg::GetInstance()->SetRunTime();
+		GameMessageManager::GetInstance()->SendGameMessage(GM_TIMER, GetTickCount(), 0, NULL);
 		break;
 	default:
 		break;
