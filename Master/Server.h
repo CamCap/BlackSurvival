@@ -26,7 +26,7 @@ public:
 	void InitServer(std::string name) { m_server->SetName(name); }
 	BOOL RecvPacket(int DwNumberBytes) { return m_server->RecvPacket(DwNumberBytes); }
 	void CheckSendPacket() { m_server->CheckSendPacket(); }
-	int GetID() { m_server->GetId(); }
+	int GetID() { return m_server->GetId(); }
 
 private:
 	SServer* m_server;

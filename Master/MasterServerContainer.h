@@ -23,7 +23,11 @@ public:
 	Server* FindServer(int id) { return m_container.FindServer(id); }
 
 	bool IsCurrentServer(Server::SERVERTYPE type) {
-		m_container.process([&](Server* server)->bool {return type == server->GetType(); });
+		bool result = false;
+
+		m_container.process([&](Server* server)->bool { if (result) return false; return type == server->GetType(); });
+
+		return result;
 	}
 
 

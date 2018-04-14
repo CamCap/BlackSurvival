@@ -23,7 +23,7 @@ void MasterServer::ServerAcceptRoutinue(SOCKET socket, SOCKADDR_IN sockaddr)
 	{
 		if (IOCP::GetInstance()->RegisterCompletionPort(socket, dynamic_cast<SPeer*>(server)) == true)
 		{
-			server_container->PushRogueServer(server);
+			server_container->AuthServer(server);
 			server->InitPeer(socket, sockaddr, SIOCP::g_userID++);
 			GameMessageManager::GetInstance()->SendGameMessage(GM_ACCEPTUPEER, 0, 0, NULL);
 		}
@@ -54,6 +54,11 @@ void MasterServer::ServerWorkRoutinue(SPeer* pCompletionKey, IO_OVERLAPPED* pOve
 	}
 }
 
+void MasterServer::ServerDisConnectRoutinue(SPeer * pCompletionKey)
+{
+	pCompletionKey->ReleaseSocket();
+}
+
 
 
 void GameMessageProcedure(DWORD msg, DWORD wParam, DWORD lParam, const char * pPacket)
@@ -66,8 +71,6 @@ void GameMessageProcedure(DWORD msg, DWORD wParam, DWORD lParam, const char * pP
 		break;
 	case GM_DISCONNECTUSER:
 	{
-		//ServerContainer::GetInstance()->DisConnect((SOCKET_CONTEXT*)wParam);
-		//SOCKET_CONTEXT* context = (SOCKET_CONTEXT*)wParam;
 		SPeer* peer = (SPeer*)wParam;
 		Server* server = MasterServerContainer::GetInstance()->FindServer(peer->GetId());
 		if (server == NULL) break;

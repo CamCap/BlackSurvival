@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "MasterServerContainer.h"
 
+template<> MasterServerContainer* SSingleton<MasterServerContainer>::ms_singleton = 0;
 
 MasterServerContainer::MasterServerContainer()
 	:m_container()

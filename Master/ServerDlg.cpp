@@ -9,6 +9,8 @@
 #include <cstringt.h>
 #include <atlstr.h>
 
+template<> ServerDlg* SSingleton<ServerDlg>::ms_singleton = 0;
+
 
 ServerDlg::ServerDlg()
 {
@@ -17,7 +19,11 @@ ServerDlg::ServerDlg()
 ServerDlg::~ServerDlg()
 {
 	KillTimer(m_hWnd, TIMER_ID);//종류//종류
+	SAFE_DELETE(m_message);
+	SAFE_DELETE(m_server);
+
 	m_iocp->CleanUp();
+	SAFE_DELETE(m_iocp);
 }
 
 
@@ -33,13 +39,13 @@ void ServerDlg::OnInitServer(HWND hWnd)
 	m_Minute = 0;
 	m_TimeCount = 0;
 
-	m_iocp = IOCP::GetInstance();
+	m_iocp = new IOCP;
 	m_iocp->SetRoutinue(MasterServer::ServerAcceptRoutinue, MasterServer::ServerWorkRoutinue, MasterServer::ServerDisConnectRoutinue);
 	m_iocp->CreateIOCP();
 
-	m_server = MasterServerContainer::GetInstance();
+	m_server = new MasterServerContainer;//MasterServerContainer::GetInstance();
 	
-	m_message = GameMessageManager::GetInstance();
+	m_message = new GameMessageManager;//GameMessageManager::GetInstance();
 	HANDLE handle = CreateThread(NULL, 0, GameMessageManager::GameMsgLoop, NULL, 0, NULL);
 
 	//////////////////////////////////////////
@@ -121,6 +127,7 @@ INT_PTR CALLBACK ServerProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_INITDIALOG:
 		ServerDlg::GetInstance()->OnInitServer(hWnd);
 		break;
+	case WM_CLOSE:
 	case WM_QUIT:
 		PostQuitMessage(0);
 		break;
@@ -128,6 +135,7 @@ INT_PTR CALLBACK ServerProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		switch (wParam)
 		{
 		case IDCANCEL:
+			GameMessageManager::GetInstance()->SendGameMessage(GM_QUIT, 0, 0, NULL);
 			PostQuitMessage(0);
 			break;
 		}

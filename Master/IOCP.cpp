@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "IOCP.h"
 
+template<> IOCP* SSingleton<IOCP>::ms_singleton = 0;
 
 IOCP::IOCP()
 {
