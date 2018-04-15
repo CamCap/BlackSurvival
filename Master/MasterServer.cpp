@@ -17,7 +17,7 @@ void MasterServer::ServerAcceptRoutinue(SOCKET socket, SOCKADDR_IN sockaddr)
 {
 	MasterServerContainer* server_container = MasterServerContainer::GetInstance();
 	
-	Server* server = server_container->PopServer();
+	Server* server = server_container->PopWaitServer();
 
 	if (server != NULL)
 	{
@@ -29,14 +29,14 @@ void MasterServer::ServerAcceptRoutinue(SOCKET socket, SOCKADDR_IN sockaddr)
 		}
 		else
 		{
-			server_container->PushServer(server);
+			server_container->PushWaitServer(server);
 		}
 	}	
 }
 
 void MasterServer::ServerWorkRoutinue(SPeer* pCompletionKey, IO_OVERLAPPED* pOverlapped, int DwNumberBytes)
 {
-	Server* server = MasterServerContainer::GetInstance()->FindServer(pCompletionKey->GetId());
+	Server* server = MasterServerContainer::GetInstance()->Find(pCompletionKey->GetId());
 
 	if (server == NULL) return;
 
@@ -56,7 +56,9 @@ void MasterServer::ServerWorkRoutinue(SPeer* pCompletionKey, IO_OVERLAPPED* pOve
 
 void MasterServer::ServerDisConnectRoutinue(SPeer * pCompletionKey)
 {
-	pCompletionKey->ReleaseSocket();
+	Server* pServer = MasterServerContainer::GetInstance()->Find(pCompletionKey->GetId());
+	MasterServerContainer::GetInstance()->DisConnectServer(pServer);
+//	pCompletionKey->ReleaseSocket();
 }
 
 
@@ -72,7 +74,7 @@ void GameMessageProcedure(DWORD msg, DWORD wParam, DWORD lParam, const char * pP
 	case GM_DISCONNECTUSER:
 	{
 		SPeer* peer = (SPeer*)wParam;
-		Server* server = MasterServerContainer::GetInstance()->FindServer(peer->GetId());
+		Server* server = MasterServerContainer::GetInstance()->Find(peer->GetId());
 		if (server == NULL) break;
 		char message[500];
 		sprintf_s(message, "Disconnect Server : %s", Server::SERVERTYPEToString(server->GetType()));

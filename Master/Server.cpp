@@ -6,15 +6,12 @@
 
 void Server::PacketProcess(BTZPacket * packet)
 {
-	if(m_server->m_packetProcess == NULL)
-		m_server->m_packetProcess = std::bind(&Server::PacketProcess, this, packet);
 
 	switch (packet->packet_id)
 	{
 	case PACKET_ID_PING:
 	{
-		if (m_server == NULL) break;
-		m_server->OnPingCheck(GetTickCount());
+		m_server.OnPingCheck(GetTickCount());
 	}	break;
 	case PACKET_ID_AUTH:
 	{
@@ -33,10 +30,10 @@ void Server::PacketProcess(BTZPacket * packet)
 
 Server::Server()
 {
-	m_server = new SServer();
+	m_server.m_packetProcess = std::bind(&Server::PacketProcess, this, std::placeholders::_1);
 }
 
 Server::~Server()
 {
-	SAFE_DELETE(m_server);
+	m_server.ReleaseSocket();
 }

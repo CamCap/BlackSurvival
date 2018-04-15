@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SServerContainer.h"
+#include "SPeerContainer.h"
 #include "Server.h"
 #include "SSingleton.h"
 
@@ -15,12 +15,12 @@ public:
 
 	void ServerPingCheck(DWORD tick) { m_container.PingCheck(tick); }
 
-	Server* PopServer() { return m_container.PopServer(); }
-	void PushServer(Server* server) { m_container.PushServer(server); }
+	Server* PopWaitServer() { return m_container.PopWaitPeer(); }
+	void PushWaitServer(Server* server) {  m_container.PushWaitPeer(server); }
 
-	void AuthServer(Server* server) { m_container.PushAuthServer(server); }
+	void AuthServer(Server* server) { m_container.PushActive(server); }
 
-	Server* FindServer(int id) { return m_container.FindServer(id); }
+	Server* Find(int id) { return m_container.Find(id); }
 
 	bool IsCurrentServer(Server::SERVERTYPE type) {
 		bool result = false;
@@ -30,9 +30,16 @@ public:
 		return result;
 	}
 
+	void DisConnectServer(Server* pServer) {
+		if (pServer == NULL) return;
+
+		pServer->Relase();
+		m_container.PopActivePeer(pServer);
+		m_container.PushWaitPeer(pServer);
+	}
 
 private:
-	SServerContainer<Server> m_container;
+	SPeerContainer<Server> m_container;
 	Server m_server[SERVER_SIZE];
 };
 

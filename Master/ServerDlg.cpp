@@ -11,7 +11,6 @@
 
 template<> ServerDlg* SSingleton<ServerDlg>::ms_singleton = 0;
 
-
 ServerDlg::ServerDlg()
 {
 }

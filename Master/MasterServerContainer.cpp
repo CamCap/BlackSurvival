@@ -11,7 +11,7 @@ MasterServerContainer::MasterServerContainer()
 	for (int i = 0; i < SERVER_SIZE; i++)
 	{
 		pServer = &m_server[i];
-		m_container.PushServer(pServer);
+		m_container.PushWaitPeer(pServer);
 	}
 }
 

@@ -22,14 +22,15 @@ public:
 	Server();
 	virtual ~Server();
 
-	void InitPeer(SOCKET socket, SOCKADDR_IN addr, int userid) { m_server->InitPeer(socket, addr, userid); }
-	void InitServer(std::string name) { m_server->SetName(name); }
-	BOOL RecvPacket(int DwNumberBytes) { return m_server->RecvPacket(DwNumberBytes); }
-	void CheckSendPacket() { m_server->CheckSendPacket(); }
-	int GetID() { return m_server->GetId(); }
+	void InitPeer(SOCKET socket, SOCKADDR_IN addr, int userid) { m_server.InitPeer(socket, addr, userid); }
+	void InitServer(std::string name) { m_server.SetName(name); }
+	BOOL RecvPacket(int DwNumberBytes) { return m_server.RecvPacket(DwNumberBytes); }
+	void CheckSendPacket() { m_server.CheckSendPacket(); }
+	int GetID() { return m_server.GetId(); }
+	void Relase() { m_server.ReleaseSocket(); }
 
 private:
-	SServer* m_server;
+	SServer m_server;
 
 	SERVERTYPE m_type;
 };
