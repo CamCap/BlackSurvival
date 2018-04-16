@@ -4,6 +4,10 @@
 #include <ctime>
 #include <cstringt.h>
 #include <atlstr.h>
+#include "LoginIOCP.h"
+#include "UserContainer.h"
+#include "GameMessage.h"
+#include "LoginServer.h"
 
 template<> LoginDlg* SSingleton<LoginDlg>::ms_singleton = 0;
 
@@ -15,7 +19,7 @@ LoginDlg::~LoginDlg()
 {
 	KillTimer(m_hWnd, TIMER_ID);//종류//종류
 	SAFE_DELETE(m_message);
-	SAFE_DELETE(m_server);
+	SAFE_DELETE(m_container);
 
 	m_iocp->CleanUp();
 	SAFE_DELETE(m_iocp);
@@ -34,11 +38,11 @@ void LoginDlg::OnInitServer(HWND hWnd)
 	m_Minute = 0;
 	m_TimeCount = 0;
 
-	m_iocp = new IOCP;
-	m_iocp->SetRoutinue(MasterServer::ServerAcceptRoutinue, MasterServer::ServerWorkRoutinue, MasterServer::ServerDisConnectRoutinue);
+	m_iocp = new LoginIOCP;
+	m_iocp->SetRoutinue(LoginServerRoutinue::LoginAccept, LoginServerRoutinue::LoginWork, LoginServerRoutinue::LoginDisconnect);
 	m_iocp->CreateIOCP();
 
-	m_server = new MasterServerContainer;//MasterServerContainer::GetInstance();
+	m_container = new UserContainer;//MasterServerContainer::GetInstance();
 
 	m_message = new GameMessageManager;//GameMessageManager::GetInstance();
 	HANDLE handle = CreateThread(NULL, 0, GameMessageManager::GameMsgLoop, NULL, 0, NULL);
@@ -124,35 +128,25 @@ INT_PTR CALLBACK ServerProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 	case WM_CLOSE:
 	case WM_QUIT:
+		GameMessageManager::GetInstance()->SendGameMessage(GM_QUIT, 0, 0, NULL);
 		PostQuitMessage(0);
 		break;
 	case WM_COMMAND:
 		switch (wParam)
 		{
 		case IDCANCEL:
-			//GameMessageManager::GetInstance()->SendGameMessage(GM_QUIT, 0, 0, NULL);
+			GameMessageManager::GetInstance()->SendGameMessage(GM_QUIT, 0, 0, NULL);
 			PostQuitMessage(0);
 			break;
 		}
 		break;
 	case WM_TIMER:
 		LoginDlg::GetInstance()->SetRunTime();
-		//GameMessageManager::GetInstance()->SendGameMessage(GM_TIMER, GetTickCount(), 0, NULL);
+		GameMessageManager::GetInstance()->SendGameMessage(GM_TIMER, GetTickCount(), 0, NULL);
 		break;
 	default:
 		break;
 	}
 
 	return FALSE;
-}
-
-template<> LoginDlg* SSingleton<LoginDlg>::ms_singleton = 0;
-
-LoginDlg::LoginDlg()
-{
-}
-
-
-LoginDlg::~LoginDlg()
-{
 }

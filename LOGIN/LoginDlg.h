@@ -2,6 +2,12 @@
 #include "SSingleton.h"
 
 
+#define TIMER_ID                100
+
+class LoginIOCP;
+class UserContainer;
+class GameMessageManager;
+
 class LoginDlg
 	:public SSingleton<LoginDlg>
 {
@@ -19,6 +25,11 @@ protected:
 	DWORD m_WriteTime;
 	DWORD m_TimeCount;
 	char m_RunTime[15];
+
+	LoginIOCP* m_iocp;
+	UserContainer* m_container;
+	GameMessageManager* m_message;
+
 public:
 	void SetMessage(const char *s);
 

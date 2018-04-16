@@ -16,6 +16,7 @@ void User::PacketProcess(BTZPacket* packet)
 {
 	switch (packet->packet_id)
 	{
-
+	default:
+		break;
 	}
 }

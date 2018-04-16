@@ -21,7 +21,7 @@ void MasterServer::ServerAcceptRoutinue(SOCKET socket, SOCKADDR_IN sockaddr)
 
 	if (server != NULL)
 	{
-		if (IOCP::GetInstance()->RegisterCompletionPort(socket, dynamic_cast<SPeer*>(server)) == true)
+		if (IOCP::GetInstance()->RegisterCompletionPort(socket, reinterpret_cast<SPeer*>(server)) == true)
 		{
 			server_container->AuthServer(server);
 			server->InitPeer(socket, sockaddr, SIOCP::g_userID++);
@@ -29,7 +29,7 @@ void MasterServer::ServerAcceptRoutinue(SOCKET socket, SOCKADDR_IN sockaddr)
 		}
 		else
 		{
-			server_container->PushWaitServer(server);
+			server_container->DisConnectServer(server);
 		}
 	}	
 }
