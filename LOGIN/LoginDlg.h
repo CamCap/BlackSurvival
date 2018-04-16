@@ -7,6 +7,7 @@
 class LoginIOCP;
 class UserContainer;
 class GameMessageManager;
+class DBManager;
 
 class LoginDlg
 	:public SSingleton<LoginDlg>
@@ -29,6 +30,7 @@ protected:
 	LoginIOCP* m_iocp;
 	UserContainer* m_container;
 	GameMessageManager* m_message;
+	DBManager* m_db;
 
 public:
 	void SetMessage(const char *s);

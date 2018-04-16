@@ -76,7 +76,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(HOMEPATH)\Source\Repos\SLibrary\Sin_Library;$(HOMEPATH)\Sin\SLibrary\Sin_Library;$(IncludePath)</IncludePath>
+    <IncludePath>C:\mysql\include;$(HOMEPATH)\Source\Repos\SLibrary\Sin_Library;$(HOMEPATH)\Sin\SLibrary\Sin_Library;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\mysql\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>

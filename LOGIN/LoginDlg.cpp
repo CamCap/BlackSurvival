@@ -8,6 +8,7 @@
 #include "UserContainer.h"
 #include "GameMessage.h"
 #include "LoginServer.h"
+#include "DBManager.h"
 
 template<> LoginDlg* SSingleton<LoginDlg>::ms_singleton = 0;
 
@@ -20,6 +21,7 @@ LoginDlg::~LoginDlg()
 	KillTimer(m_hWnd, TIMER_ID);//종류//종류
 	SAFE_DELETE(m_message);
 	SAFE_DELETE(m_container);
+	SAFE_DELETE(m_db);
 
 	m_iocp->CleanUp();
 	SAFE_DELETE(m_iocp);
@@ -46,6 +48,8 @@ void LoginDlg::OnInitServer(HWND hWnd)
 
 	m_message = new GameMessageManager;//GameMessageManager::GetInstance();
 	HANDLE handle = CreateThread(NULL, 0, GameMessageManager::GameMsgLoop, NULL, 0, NULL);
+	
+	m_db = new DBManager;
 
 	//////////////////////////////////////////
 	CString str;
