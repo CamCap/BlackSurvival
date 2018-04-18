@@ -1,5 +1,6 @@
 #pragma once
 #include "ssocket.h"
+#include "LoginPacket.h"
 
 class User
 {
@@ -10,12 +11,18 @@ public:
 	int GetID() { return m_peer.GetId(); }
 	void PacketProcess(BTZPacket* packet);
 	void RelaseUser() { m_peer.ReleaseSocket(); }
+	std::string GetName() { return m_name; }
 
+	void OnSendError(DWORD error);
+protected:
+	void OnLogin(BTZPacket* packet);
 public:
 	User();
 	~User();
 
 private:
 	SPeer m_peer;
+	std::string m_name;
+
 };
 

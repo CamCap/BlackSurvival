@@ -14,3 +14,15 @@ UserContainer::UserContainer()
 UserContainer::~UserContainer()
 {
 }
+
+bool UserContainer::CheckConnect(std::string name, int id, User * puser)
+{
+	User* pElement = this->Find(name);
+
+	if (pElement == NULL) return true;
+	//중복이 있다는건데...
+	
+	//중복이 없으면 어쩌지????
+
+	return false;
+}

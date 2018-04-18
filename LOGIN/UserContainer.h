@@ -20,7 +20,8 @@ public:
 	void AuthServer(User* server) { m_container.PushActive(server); }
 
 	User* Find(int id) { return m_container.Find(id); }
-	
+	User* Find(std::string name) { return m_container.Find([&](User* puser)->bool {return name == puser->GetName(); }); }
+
 	void DisConnectServer(User* pServer) {
 		if (pServer == NULL) return;
 
@@ -29,6 +30,7 @@ public:
 		m_container.PushWaitPeer(pServer);
 	}
 
+	bool CheckConnect(std::string name, int id, User* puser);
 
 private:
 
