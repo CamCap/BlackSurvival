@@ -20,7 +20,6 @@ void DBManager::DBProcess(BTZ_SQL* sql, DWORD wParam, DWORD lParam)
 	{
 	case DM_SIGNUP:
 	{
-		m_db.
 	}break;
 	default:
 		break;
@@ -31,6 +30,7 @@ void DBManager::SignUp(char * id, char pw, char* nickname, bool sex)
 {
 	BTZ_SQL* sql = m_db.PopBtzSql();
 	sql->sql_id = DM_SIGNUP;
-	sprintf(sql->query, "insert into test_table value('%s', '%s', '%s', %d)", id, pw, nickname, sex);
+	sprintf_s(sql->query, "insert into test_table value('%s', '%s', '%s', %d)", id, pw, nickname, sex);
 	m_db.PushWaitSql(sql);
+
 }
