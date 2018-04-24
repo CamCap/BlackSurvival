@@ -21,7 +21,8 @@ void MasterServer::ServerAcceptRoutinue(SOCKET socket, SOCKADDR_IN sockaddr)
 
 	if (server != NULL)
 	{
-		if (IOCP::GetInstance()->RegisterCompletionPort(socket, reinterpret_cast<SPeer*>(server)) == true)
+//		SPeer* peer = (SPeer*)server->operator SPeer *();
+		if (IOCP::GetInstance()->RegisterCompletionPort(socket, (SPeer*)server->operator SPeer *()) == true)
 		{
 			server_container->AuthServer(server);
 			server->InitPeer(socket, sockaddr, SIOCP::g_userID++);

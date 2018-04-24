@@ -40,6 +40,6 @@ public:
 
 private:
 	SPeerContainer<Server> m_container;
-	Server m_server[SERVER_SIZE];
+	Server* m_server[SERVER_SIZE];
 };
 

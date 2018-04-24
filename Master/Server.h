@@ -29,6 +29,8 @@ public:
 	int GetID() { return m_server.GetId(); }
 	void Relase() { m_server.ReleaseSocket(); }
 
+	//SPeer* operator() { return (SPeer*)&m_server; }
+	operator SPeer*() { return (SPeer*)&m_server; }
 private:
 	SServer m_server;
 

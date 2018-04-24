@@ -19,10 +19,10 @@ ServerDlg::~ServerDlg()
 {
 	KillTimer(m_hWnd, TIMER_ID);//종류//종류
 	SAFE_DELETE(m_message);
-	SAFE_DELETE(m_server);
 
-	m_iocp->CleanUp();
+
 	SAFE_DELETE(m_iocp);
+	SAFE_DELETE(m_server);
 }
 
 

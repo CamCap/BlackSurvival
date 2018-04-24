@@ -30,7 +30,7 @@ void Server::PacketProcess(BTZPacket * packet)
 
 Server::Server()
 {
-	m_server.m_packetProcess = std::bind(&Server::PacketProcess, this, std::placeholders::_1);
+	m_server.m_packetProcess = std::bind(&Server::PacketProcess, std::ref(*this), std::placeholders::_1);
 }
 
 Server::~Server()

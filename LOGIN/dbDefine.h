@@ -2,25 +2,26 @@
 
 #include "SMySqlManager.h"
 
-#define DB_HOST "127.0.0.1"
-#define DB_ID "n_sin"
-#define DB_PW "sky59835"
+#define DB_HOST L"N_BlackSurvival"
+#define DB_ID L"n_sin"
+#define DB_PW L"sky59835"
 
-struct SQL_CHECK_ID_RES
+struct SQL_SIGNIN_RES
 {
 	char nickname[20];
 	bool sex;
-	char lasttime[20];
+
+	int m_state;
 };
 
-struct SQL_CHECK_ID
+struct SQL_SIGNIN_ID
 	:public BTZ_SQL
 {
 	char id[20];
 	char pw[20];
 
-	SQL_CHECK_ID_RES res;
+	SQL_SIGNIN_RES res;
 };
 
 #define DM_SIGNUP WM_USER + 1000
-#define DM_SGININ WM_USER + 1001
+#define DM_SIGNIN WM_USER + 1001

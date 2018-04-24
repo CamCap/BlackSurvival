@@ -6,12 +6,9 @@ template<> MasterServerContainer* SSingleton<MasterServerContainer>::ms_singleto
 MasterServerContainer::MasterServerContainer()
 	:m_container()
 {
-	Server* pServer;
-
-	for (int i = 0; i < SERVER_SIZE; i++)
-	{
-		pServer = &m_server[i];
-		m_container.PushWaitPeer(pServer);
+	for (int i = 0; i < SERVER_SIZE; i++) {
+		m_server[i] = new Server;
+		m_container.PushWaitPeer(m_server[i]);
 	}
 }
 

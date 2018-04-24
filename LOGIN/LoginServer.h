@@ -11,19 +11,19 @@ public:
 	{
 		UserContainer* user_container = UserContainer::GetInstance();
 
-		User* user = user_container->PopWaitServer();
+		User* user = user_container->PopWaitUser();
 
 		if (user != NULL)
 		{
 			if (LoginIOCP::GetInstance()->RegisterCompletionPort(socket, reinterpret_cast<SPeer*>(user)) == true)
 			{
-				user_container->AuthServer(user);
+				user_container->AuthUser(user);
 				user->InitPeer(socket, addr, SIOCP::g_userID++);
 				GameMessageManager::GetInstance()->SendGameMessage(GM_ACCEPTUPEER, 0, 0, NULL);
 			}
 			else
 			{
-				user_container->DisConnectServer(user);
+				user_container->DisConnectUser(user);
 			}
 		}
 	}
@@ -49,7 +49,7 @@ public:
 	static void LoginDisconnect(SPeer* peer)
 	{
 		User* puser = UserContainer::GetInstance()->Find(peer->GetId());
-		UserContainer::GetInstance()->DisConnectServer(puser);
+		UserContainer::GetInstance()->DisConnectUser(puser);
 	}
 };
 

@@ -20,11 +20,12 @@ LoginDlg::~LoginDlg()
 {
 	KillTimer(m_hWnd, TIMER_ID);//종류//종류
 	SAFE_DELETE(m_message);
-	SAFE_DELETE(m_container);
 	SAFE_DELETE(m_db);
 
-	m_iocp->CleanUp();
+
+
 	SAFE_DELETE(m_iocp);
+	SAFE_DELETE(m_container);
 }
 
 
@@ -146,7 +147,7 @@ INT_PTR CALLBACK ServerProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 	case WM_TIMER:
 		LoginDlg::GetInstance()->SetRunTime();
-		GameMessageManager::GetInstance()->SendGameMessage(GM_TIMER, GetTickCount(), 0, NULL);
+		//GameMessageManager::GetInstance()->SendGameMessage(GM_TIMER, GetTickCount(), 0, NULL);
 		break;
 	default:
 		break;
