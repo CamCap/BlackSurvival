@@ -21,7 +21,7 @@ public:
 	bool PostCompletionStatus(DWORD CompleitonKey, DWORD dwBytesTransferred = 0, WSAOVERLAPPED* pOverlapped = NULL) { return m_iocp.PostCompletionStatus(CompleitonKey, dwBytesTransferred, pOverlapped); }
 
 	void SetRoutinue(IOCPAccept accept, IOCPWork work, IOCPDisconnect disconnect) {
-		m_iocp.m_ThreadAccept = accept; m_iocp.m_ThreadWork = work; m_iocp.m_ThreadDisconnect = disconnect;
+		m_iocp.m_RoutinueAccept = accept; m_iocp.m_RoutinueWork = work; m_iocp.m_RoutinueDisconnect = disconnect;
 	}
 private:
 	SIOCP m_iocp;

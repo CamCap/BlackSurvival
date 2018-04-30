@@ -23,7 +23,6 @@ LoginDlg::~LoginDlg()
 	SAFE_DELETE(m_db);
 
 
-
 	SAFE_DELETE(m_iocp);
 	SAFE_DELETE(m_container);
 }
