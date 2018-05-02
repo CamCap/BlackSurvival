@@ -14,6 +14,7 @@
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	ServerDlg* dlg = new ServerDlg();
+	
 	dlg->StartServer(hInstance, IDD_MASTER_DIALOG, NULL);
 
 	delete dlg;

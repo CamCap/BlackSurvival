@@ -12,7 +12,7 @@ class MasterServerContainer
 public:
 	MasterServerContainer();
 	~MasterServerContainer();
-
+public:
 	void ServerPingCheck(DWORD tick) { m_container.PingCheck(tick); }
 
 	Server* PopWaitServer() { return m_container.PopWaitPeer(); }
