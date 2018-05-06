@@ -72,6 +72,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(HOMEPATH)\Source\Repos\SLibrary\Sin_Library;$(HOMEPATH)\Sin\SLibrary\Sin_Library;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
@@ -94,6 +95,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(HOMEPATH)\Source\Repos\SLibrary\LIB\LIB64;</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -147,13 +149,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\SLibrary\Sin_Library\resource.h" />
     <ClInclude Include="INGAME.h" />
-    <ClInclude Include="resource.h" />
+    <ClInclude Include="InGameDlg.h" />
+    <ClInclude Include="InGameIOCP.h" />
+    <ClInclude Include="InGamePacket.h" />
+    <ClInclude Include="InGameServer.h" />
+    <ClInclude Include="InGameUser.h" />
+    <ClInclude Include="InGameUserContainer.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="INGAME.cpp" />
+    <ClCompile Include="InGameDlg.cpp" />
+    <ClCompile Include="InGameIOCP.cpp" />
+    <ClCompile Include="InGameUser.cpp" />
+    <ClCompile Include="InGameUserContainer.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -162,11 +174,17 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ResourceCompile Include="..\..\SLibrary\Sin_Library\Sin_Library1.rc" />
     <ResourceCompile Include="INGAME.rc" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="INGAME.ico" />
     <Image Include="small.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\SLibrary\Sin_Library\Sin_Library.vcxproj">
+      <Project>{cf4a0f86-5c5d-4ef5-a1ff-688adfd4d215}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
