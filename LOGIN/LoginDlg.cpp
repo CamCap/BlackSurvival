@@ -56,7 +56,7 @@ void LoginDlg::OnInitServer(HWND hWnd)
 	str.Format(_T("=================초기화 종료================="));
 	SetMessage(LPSTR(LPCTSTR(str)));
 
-	ShowWindow(hWnd, SW_SHOWNORMAL);
+	ShowWindow(m_hWnd, SW_SHOWNORMAL);
 	SetTimer(m_hWnd, TIMER_ID, 10000, NULL);
 
 	SYSTEMTIME st;

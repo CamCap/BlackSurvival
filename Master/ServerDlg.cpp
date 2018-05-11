@@ -26,7 +26,7 @@ ServerDlg::~ServerDlg()
 }
 
 
-void ServerDlg::OnInitServer(HWND hWnd)
+void ServerDlg::OnInitServer(HWND& hWnd)
 {
 	m_hWnd = hWnd;
 
@@ -85,7 +85,7 @@ void ServerDlg::OnInitServer(HWND hWnd)
 
 void ServerDlg::StartServer(HINSTANCE hInstance, int resID, HWND parentHwnd)
 {
-	DialogBox(hInstance, MAKEINTRESOURCE(resID), parentHwnd, (DLGPROC)ServerProc);
+	DialogBox(hInstance, MAKEINTRESOURCE(resID), NULL, (DLGPROC)ServerProc);
 }
 
 void ServerDlg::SetMessage(const char *s)
@@ -142,6 +142,8 @@ INT_PTR CALLBACK ServerProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_TIMER:
 		ServerDlg::GetInstance()->SetRunTime();
 		GameMessageManager::GetInstance()->SendGameMessage(GM_TIMER, GetTickCount(), 0, NULL);
+		break;
+	case WM_CREATE:
 		break;
 	default:
 		break;

@@ -33,12 +33,12 @@ protected:
 	MasterServerContainer* m_server;
 
 public:
-	void SetMessage(const char *s);
-
 	ServerDlg();
 	~ServerDlg();
+	void SetMessage(const char *s);
 
-	void OnInitServer(HWND hWnd);
+
+	void OnInitServer(HWND& hWnd);
 	void StartServer(HINSTANCE hInstance, int resID, HWND parentHwnd);
 
 	BOOL OnExit(HWND hWnd);
