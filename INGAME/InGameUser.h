@@ -12,6 +12,9 @@ public:
 	void PacketProcess(BTZPacket*);
 	std::string GetName() { return m_nickname;}
 	int GetID() { return m_id; }
+
+	void MoveServer(DWORD type);
+
 private:
 
 	std::string m_nickname;

@@ -21,9 +21,10 @@ public:
 	void OnSignUp(DWORD sql);
 
 protected:
-	void IsLogin(BTZPacket* packet);
-	void IsSignUp(BTZPacket* sql);
-
+	void ClientJoin(BTZPacket* packet); // 이동에 의한접속
+	void IsLogin(BTZPacket* packet); // 로그인 요청
+	void IsSignUp(BTZPacket* sql); // 회원가입 요청
+	void MoveServer(BTZPacket* packet); // 서버이동 요청
 
 //	void UpdateSignInTime(BTZ_SQL* sql);
 public:

@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "InGameUser.h"
 #include <functional>
+#include "InGamePacket.h"
 
 InGameUser::InGameUser()
 {
@@ -16,6 +17,13 @@ void InGameUser::PacketProcess(BTZPacket* packet)
 {
 	switch (packet->packet_id)
 	{
-
+	case PACKET_ID_CLIENT_JOIN:
+		break;
+	default:
+		break;
 	}
+}
+
+void InGameUser::MoveServer(DWORD type)
+{
 }

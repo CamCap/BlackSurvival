@@ -10,7 +10,7 @@ public:
 	~IOCP();
 
 public:
-	bool CreateIOCP() { return m_iocp->CreateIOCP(); }
+	bool CreateIOCP() { return m_iocp->CreateIOCP(MASTER_SERVER_IP, MASTER_SERVER_PORT); }
 	void CleanUp() { m_iocp->CleanUp(); }
 
 

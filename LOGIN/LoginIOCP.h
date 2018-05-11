@@ -9,7 +9,7 @@ public:
 	LoginIOCP();
 	~LoginIOCP();
 
-	bool CreateIOCP() { return m_iocp.CreateIOCP(); }
+	bool CreateIOCP() { return m_iocp.CreateIOCP(LOGIN_SERVER_IP, LOGIN_SERVER_PORT); }
 	void CleanUp() { m_iocp.CleanUp(); }
 
 

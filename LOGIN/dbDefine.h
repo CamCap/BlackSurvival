@@ -6,6 +6,7 @@
 #define DB_ID L"n_sin"
 #define DB_PW L"sky59835"
 
+
 struct SQL_SIGNIN_RES
 {
 	char nickname[20];
