@@ -21,34 +21,31 @@
     <ClInclude Include="targetver.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="INGAME.h">
+    <ClInclude Include="resource.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="InGameDlg.h">
+    <ClInclude Include="Matching.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\SLibrary\Sin_Library\resource.h">
+    <ClInclude Include="MatchingDlg.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="InGameIOCP.h">
+    <ClInclude Include="MatchingServer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="InGameServer.h">
+    <ClInclude Include="MatchingUser.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="InGameUser.h">
+    <ClInclude Include="MatchingHeader.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="InGameUserContainer.h">
+    <ClInclude Include="sin_resource.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="InGamePacket.h">
+    <ClInclude Include="MatchingPacket.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="InGameHeader.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="InGameMatching.h">
+    <ClInclude Include="UserMatchingManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -56,30 +53,27 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="INGAME.cpp">
+    <ClCompile Include="Matching.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="InGameDlg.cpp">
+    <ClCompile Include="MatchingDlg.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="InGameIOCP.cpp">
+    <ClCompile Include="MatchingServer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="InGameUser.cpp">
+    <ClCompile Include="MatchinUser.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="InGameUserContainer.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="InGameMatching.cpp">
+    <ClCompile Include="UserMatchingManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="INGAME.rc">
+    <ResourceCompile Include="Matching.rc">
       <Filter>리소스 파일</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="..\..\SLibrary\Sin_Library\Sin_Library1.rc">
+    <ResourceCompile Include="Sin_Library1.rc">
       <Filter>리소스 파일</Filter>
     </ResourceCompile>
   </ItemGroup>
@@ -87,7 +81,7 @@
     <Image Include="small.ico">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="INGAME.ico">
+    <Image Include="Matching.ico">
       <Filter>리소스 파일</Filter>
     </Image>
   </ItemGroup>

@@ -17,7 +17,7 @@ public:
 		{
 			if (LoginIOCP::GetInstance()->RegisterCompletionPort(socket, reinterpret_cast<SPeer*>(user)) == true)
 			{
-				user_container->AuthUser(user);
+				user_container->PushActiveUser(user);
 				user->InitPeer(socket, addr, SIOCP::g_userID++);
 				GameMessageManager::GetInstance()->SendGameMessage(GM_ACCEPTUPEER, 0, 0, NULL);
 			}
@@ -27,9 +27,10 @@ public:
 			}
 		}
 	}
+
 	static void LoginWork(SPeer* peer, IO_OVERLAPPED* overlapped, int recv_byte)
 	{
-		User* puser = UserContainer::GetInstance()->Find(peer->GetId());
+		User* puser = UserContainer::GetInstance()->Find(peer->GetID());
 
 		if (puser == NULL) return;
 
@@ -48,7 +49,7 @@ public:
 
 	static void LoginDisconnect(SPeer* peer)
 	{
-		User* puser = UserContainer::GetInstance()->Find(peer->GetId());
+		User* puser = UserContainer::GetInstance()->Find(peer->GetID());
 		UserContainer::GetInstance()->DisConnectUser(puser);
 	}
 };

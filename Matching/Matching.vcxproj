@@ -20,9 +20,9 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{26BE5781-5641-4996-A1EA-0A3A59201195}</ProjectGuid>
+    <ProjectGuid>{8F0C88B5-838F-4831-814B-B183C9A6A199}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Master</RootNamespace>
+    <RootNamespace>Matching</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -70,15 +70,13 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(UserPROFILE)\Source\Repos\SLibrary\Sin_Library;$(IncludePath)</IncludePath>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\mysql\include;$(HOMEPATH)\Source\Repos\SLibrary\Sin_Library;$(HOMEPATH)\Sin\SLibrary\Sin_Library;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\mysql\lib;$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir)\EXE\$(Platform)</OutDir>
+    <IncludePath>$(HOMEPATH)\Source\Repos\SLibrary\Sin_Library;$(HOMEPATH)\Sin\SLibrary\Sin_Library;$(IncludePath)</IncludePath>
+    <LibraryPath>$(HOMEPATH)\Source\Repos\SLibrary\LIB\LIB64;$(HOMEPATH)\Sin\SLibrary\LIB\LIB64;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -86,22 +84,6 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
-      <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
-    </ClCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(UserPROFILE)\Source\Repos\SLibrary\LIB\LIB32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
-  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -114,7 +96,20 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(HOMEPATH)\Source\Repos\SLibrary\LIB\LIB64;$(HOMEPATH)\Sin\SLibrary\LIB\LIB64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -154,36 +149,37 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="IOCP.h" />
-    <ClInclude Include="MasterHeader.h" />
-    <ClInclude Include="MasterPacket.h" />
-    <ClInclude Include="MasterServer.h" />
-    <ClInclude Include="MasterServerContainer.h" />
+    <ClInclude Include="Matching.h" />
+    <ClInclude Include="MatchingDlg.h" />
+    <ClInclude Include="MatchingHeader.h" />
+    <ClInclude Include="MatchingPacket.h" />
+    <ClInclude Include="MatchingServer.h" />
+    <ClInclude Include="MatchingUser.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="Server.h" />
-    <ClInclude Include="ServerDlg.h" />
+    <ClInclude Include="sin_resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="UserMatchingManager.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="IOCP.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="MasterServer.cpp" />
-    <ClCompile Include="MasterServerContainer.cpp" />
-    <ClCompile Include="Server.cpp" />
-    <ClCompile Include="ServerDlg.cpp" />
+    <ClCompile Include="Matching.cpp" />
+    <ClCompile Include="MatchingDlg.cpp" />
+    <ClCompile Include="MatchingServer.cpp" />
+    <ClCompile Include="MatchinUser.cpp" />
     <ClCompile Include="stdafx.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="UserMatchingManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Master.rc" />
+    <ResourceCompile Include="Matching.rc" />
+    <ResourceCompile Include="Sin_Library1.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Master.ico" />
+    <Image Include="Matching.ico" />
     <Image Include="small.ico" />
   </ItemGroup>
   <ItemGroup>

@@ -21,7 +21,7 @@ InGameDlg::~InGameDlg()
 
 void InGameDlg::StartDlg(HINSTANCE hInstance, int resID, HWND parentHwnd)
 {
-	__super::StartDlg({ parentHwnd, hInstance, (DWORD)resID, ServerProc });
+	__super::StartDlg({ parentHwnd, hInstance, (DWORD)resID, ServerProc, false});
 }
 
 void InGameDlg::OnInitDlg(HWND hWnd)

@@ -20,7 +20,7 @@ struct SQL_SIGNIN_ID
 {
 	char id[20];
 	char pw[20];
-
+	
 	SQL_SIGNIN_RES res;
 };
 

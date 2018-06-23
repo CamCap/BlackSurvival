@@ -1,6 +1,7 @@
 #pragma once
 #include "SDlg.h"
 #include "SSingleton.h"
+//#include "MatchingManager.h"
 
 class InGameDlg
 	:public SSingleton<InGameDlg>, public SDlg

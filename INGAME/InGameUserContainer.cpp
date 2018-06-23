@@ -12,3 +12,12 @@ InGameUserContainer::InGameUserContainer()
 InGameUserContainer::~InGameUserContainer()
 {
 }
+
+bool InGameUserContainer::CheckConnect(std::string name, int id, InGameUser * puser)
+{
+	return false;
+}
+
+void InGameUserContainer::InvChiperGUID(GUID & id)
+{
+}

@@ -20,7 +20,7 @@ public:
 	}
 	bool PostCompletionStatus(DWORD CompleitonKey, DWORD dwBytesTransferred = 0, WSAOVERLAPPED* pOverlapped = NULL) { return m_iocp.PostCompletionStatus(CompleitonKey, dwBytesTransferred, pOverlapped); }
 
-	void SetRoutinue(IOCPAccept accept, IOCPWork work, IOCPDisconnect disconnect) {
+	void SetRoutinue(SIOCP::IOCPAccept accept, SIOCP::IOCPWork work, SIOCP::IOCPDisconnect disconnect) {
 		m_iocp.m_RoutinueAccept = accept; m_iocp.m_RoutinueWork = work; m_iocp.m_RoutinueDisconnect = disconnect;
 	}
 private:

@@ -3,10 +3,13 @@
 #include "UserContainer.h"
 #include "DBManager.h"
 #include "dbDefine.h"
+#include "LoginMatching.h"
+#include "LoginDlg.h"
 
 User::User()
 {
-	m_peer.m_packetProcess = std::bind(&User::PacketProcess, std::ref(*this), std::placeholders::_1);
+	m_packetProcess = std::bind(&User::PacketProcess, std::ref(*this), std::placeholders::_1);
+	//ZeroMemory(m_userid, sizeof(m_userid));
 }
 
 
@@ -27,8 +30,12 @@ void User::PacketProcess(BTZPacket* packet)
 	case PACKET_ID_MOVE_SERVER_REQ:
 		MoveServer(packet);
 		break;
-	case PACKET_ID_CLIENT_JOIN:
+	case PACKET_ID_CLIENT_JOIN: // 로그인 서버에 이동으로 접속했는가, 최초접속했는가?
 		ClientJoin(packet);
+		break;
+	case PACKET_ID_MATCHING_REQ: //매칭 신청
+		break;
+	case PACKET_ID_MATCHING_RES:
 		break;
 	default:
 		break;
@@ -39,15 +46,23 @@ void User::ClientJoin(BTZPacket * packet)
 {
 	CLIENT_JOIN_PACKET* join_packet = (CLIENT_JOIN_PACKET*)packet;
 
-//	this->m_peer.
-	//join_packet->id
+	if (join_packet->server_join) // 서버 이동으로 옴
+	{
+		UserContainer::GetInstance()->InvChiperGUID(join_packet->guid);
+	}
+	else // 최초 접속
+	{
+		UserContainer::GetInstance()->GiveGUID(this->m_userid);
+		memcpy(&join_packet->guid, &m_userid, sizeof(m_userid));
+		Send(join_packet);
+	}
 }
 
 void User::IsLogin(BTZPacket * packet)
 {
 	LOGIN_REQ_PACKET* req_packet = (LOGIN_REQ_PACKET*)packet;
 
-	if (UserContainer::GetInstance()->CheckConnect(req_packet->id, m_peer.GetId(), this))
+	if (UserContainer::GetInstance()->CheckConnect(req_packet->id, __super::GetID(), this))
 	{
 		OnSendError(ERROR_CONNECT_USER);
 	}
@@ -80,10 +95,18 @@ void User::MoveServer(BTZPacket* packet)
 	res_packet.packet_id = PACKET_ID_MOVE_SERVER_RES;
 	res_packet.packet_size = sizeof(res_packet);
 	res_packet.server = move_packet->server;
-	strcpy(res_packet.server_ip, INGAME_SERVER_IP);
+	strcpy_s(res_packet.server_ip, INGAME_SERVER_IP);
 	res_packet.server_port = INGAME_SERVER_PORT;
 
-	m_peer.Send(&res_packet);
+	__super::Send(&res_packet);
+}
+
+void User::MatchRequest(BTZPacket * packet)
+{
+	MATCHING_COMPLETE* match_packet = (MATCHING_COMPLETE*)packet;
+
+	LoginMatching::GetInstance()->MatchingRequest(*this);
+	LoginMatching::GetInstance()->SetMatchNum(LoginDlg::GetInstance()->GetMatchNum());
 }
 
 void User::OnLogin(DWORD sql)
@@ -95,7 +118,7 @@ void User::OnLogin(DWORD sql)
 		LOGIN_RES_PACKET packet;
 		packet.packet_id = PACKET_ID_LOGIN_RES;
 		packet.packet_size = sizeof(packet);
-		m_peer.Send(&packet);
+		__super::Send(&packet);
 	}
 	else
 	{
@@ -112,7 +135,7 @@ void User::OnSignUp(DWORD result)
 		packet.packet_id = PACKET_ID_SIGNUP_RES;
 		packet.packet_size = sizeof(packet);
 		packet.IsSucess = result;
-		m_peer.Send(&packet);
+		__super::Send(&packet);
 	}
 	else if(result == SMySqlManager::RES_ENUM::OVERLAP_VALUE)
 	{
@@ -131,6 +154,6 @@ void User::OnSendError(DWORD error)
 	packet.packet_size = sizeof(packet);
 	packet.errcode = error;
 
-	m_peer.Send(&packet);
+	__super::Send(&packet);
 }
 

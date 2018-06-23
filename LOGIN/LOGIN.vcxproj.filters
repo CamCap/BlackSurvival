@@ -51,6 +51,12 @@
     <ClInclude Include="LoginPacket.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="LoginHeader.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginMatching.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -72,6 +78,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="DBManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginMatching.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

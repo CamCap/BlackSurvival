@@ -41,7 +41,8 @@ void DBManager::SingIn(char * id, char * pw, DB_CallBack callback)
 	memset(sql, 0, sizeof(BTZ_SQL));
 	sql->sql_id = DM_SIGNIN;
 
-	sprintf_s(sql->query, "select nickname, sex from test_table where id ='%s' && pw ='%s';", id, pw);
+//	sprintf_s(sql->query, "select nickname, sex from test_table where id ='%s' && pw ='%s';", id, pw);
+	sprintf_s(sql->query, "call sign_in('%s', '%s');", id, pw);
 	m_db.PushWaitSql(sql);
 
 	ResDB* res = m_listRes.pop();
@@ -55,7 +56,9 @@ void DBManager::SignUp(char * id, char* pw, char* nickname, bool sex, DB_CallBac
 	BTZ_SQL* sql = m_db.PopBtzSql();
 	memset(sql, 0, sizeof(BTZ_SQL));
 	sql->sql_id = DM_SIGNUP;
-	sprintf_s(sql->query, "insert into test_table(id,pw,nickname,sex) values('%s', '%s', '%s', %d);", id, pw, nickname, sex);
+	//sprintf_s(sql->query, "insert into test_table(id,pw,nickname,sex) values('%s', '%s', '%s', %d);", id, pw, nickname, sex);
+	sprintf_s(sql->query, "call sign_up('%s', '%s', '%s', %d);", id, pw, nickname, sex);
+
 	m_db.PushWaitSql(sql);
 
 	ResDB* res = m_listRes.pop();
@@ -63,6 +66,7 @@ void DBManager::SignUp(char * id, char* pw, char* nickname, bool sex, DB_CallBac
 	memcpy(&res->sql, sql, sizeof(BTZ_SQL));
 	m_listRes.push(res);
 }
+
 
 void DBManager::SignUpProcess(BTZ_SQL * sql, ResSql& result, int error)
 {
@@ -74,8 +78,9 @@ void DBManager::SignUpProcess(BTZ_SQL * sql, ResSql& result, int error)
 	{
 		GameMessageManager::GetInstance()->SendGameMessage(GM_ERROR, result.m_state, NULL, NULL);
 	}
-	else
+	else if(resdb == NULL)
 	{
+		m_listRes.push(resdb);
 	}
 
 	if (resdb->callback != NULL)

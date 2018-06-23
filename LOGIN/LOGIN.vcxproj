@@ -78,6 +78,10 @@
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>C:\mysql\include;$(HOMEPATH)\Source\Repos\SLibrary\Sin_Library;$(HOMEPATH)\Sin\SLibrary\Sin_Library;$(IncludePath)</IncludePath>
     <LibraryPath>C:\mysql\lib;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)\EXE\$(Platform)\</OutDir>
+    <ExecutablePath>$(VC_ExecutablePath_x64);$(WindowsSDK_ExecutablePath);$(VS_ExecutablePath);$(MSBuild_ExecutablePath);$(FxCopDir);$(PATH);</ExecutablePath>
+    <ReferencePath>$(VC_ReferencesPath_x64)</ReferencePath>
+    <SourcePath>$(VC_SourcePath);</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -109,12 +113,18 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(HOMEPATH)\Source\Repos\SLibrary\LIB\LIB64;</AdditionalLibraryDirectories>
     </Link>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
+    </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -157,7 +167,9 @@
     <ClInclude Include="DBManager.h" />
     <ClInclude Include="LOGIN.h" />
     <ClInclude Include="LoginDlg.h" />
+    <ClInclude Include="LoginHeader.h" />
     <ClInclude Include="LoginIOCP.h" />
+    <ClInclude Include="LoginMatching.h" />
     <ClInclude Include="LoginPacket.h" />
     <ClInclude Include="LoginServer.h" />
     <ClInclude Include="resource.h" />
@@ -171,6 +183,7 @@
     <ClCompile Include="LOGIN.cpp" />
     <ClCompile Include="LoginDlg.cpp" />
     <ClCompile Include="LoginIOCP.cpp" />
+    <ClCompile Include="LoginMatching.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

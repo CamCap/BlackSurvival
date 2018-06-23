@@ -16,7 +16,7 @@ public:
 		{
 			if (InGameIOCP::GetInstance()->RegisterCompletionPort(socket, reinterpret_cast<SPeer*>(user)) == true)
 			{
-				user_container->AuthUser(user);
+				user_container->PushActiveUser(user);
 				user->InitPeer(socket, addr, SIOCP::g_userID++);
 				GameMessageManager::GetInstance()->SendGameMessage(GM_ACCEPTUPEER, 0, 0, NULL);
 			}
@@ -29,7 +29,7 @@ public:
 
 	static void InGameWork(SPeer* peer, IO_OVERLAPPED* overlapped, int recv_byte)
 	{
-		InGameUser* puser = InGameUserContainer::GetInstance()->Find(peer->GetId());
+		InGameUser* puser = InGameUserContainer::GetInstance()->Find(peer->GetID());
 
 		if (puser == NULL) return;
 
@@ -48,7 +48,7 @@ public:
 
 	static void InGameDissconet(SPeer* peer)
 	{
-		InGameUser* puser = InGameUserContainer::GetInstance()->Find(peer->GetId());
+		InGameUser* puser = InGameUserContainer::GetInstance()->Find(peer->GetID());
 		InGameUserContainer::GetInstance()->DisConnectUser(puser);
 	}
 };

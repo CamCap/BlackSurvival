@@ -73,6 +73,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(HOMEPATH)\Source\Repos\SLibrary\Sin_Library;$(HOMEPATH)\Sin\SLibrary\Sin_Library;$(IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)\EXE\$(Platform)</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
@@ -152,7 +153,9 @@
     <ClInclude Include="..\..\SLibrary\Sin_Library\resource.h" />
     <ClInclude Include="INGAME.h" />
     <ClInclude Include="InGameDlg.h" />
+    <ClInclude Include="InGameHeader.h" />
     <ClInclude Include="InGameIOCP.h" />
+    <ClInclude Include="InGameMatching.h" />
     <ClInclude Include="InGamePacket.h" />
     <ClInclude Include="InGameServer.h" />
     <ClInclude Include="InGameUser.h" />
@@ -164,6 +167,7 @@
     <ClCompile Include="INGAME.cpp" />
     <ClCompile Include="InGameDlg.cpp" />
     <ClCompile Include="InGameIOCP.cpp" />
+    <ClCompile Include="InGameMatching.cpp" />
     <ClCompile Include="InGameUser.cpp" />
     <ClCompile Include="InGameUserContainer.cpp" />
     <ClCompile Include="stdafx.cpp">

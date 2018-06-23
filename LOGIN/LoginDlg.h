@@ -1,5 +1,6 @@
 #pragma once
 #include "SSingleton.h"
+#include "SDlg.h"
 
 
 #define TIMER_ID                100
@@ -10,44 +11,25 @@ class GameMessageManager;
 class DBManager;
 
 class LoginDlg
-	:public SSingleton<LoginDlg>
+	:public SSingleton<LoginDlg>, public SDlg
 {
 protected:
-	HWND m_hWnd;
-	HWND m_hWndMsg;				// 메세지를 출력할 리스트 박스 핸들.
-	HWND m_hTimer;				//서버 가동 시간 에디트박스 핸들
-
-	DWORD m_Day;
-	DWORD m_Hour;
-	DWORD m_Minute;
-	DWORD m_RealDay;
-	DWORD m_RealHour;
-	DWORD m_RealMinute;
-	DWORD m_WriteTime;
-	DWORD m_TimeCount;
-	char m_RunTime[15];
-
-	LoginIOCP* m_iocp;
-	UserContainer* m_container;
-	GameMessageManager* m_message;
-	DBManager* m_db;
+	class LoginIOCP* m_iocp;
+	class UserContainer* m_container;
+	class GameMessageManager* m_message;
+	class DBManager* m_db;
 
 public:
-	void SetMessage(const char *s);
-
 	LoginDlg();
 	~LoginDlg();
 
-	void OnInitServer(HWND hWnd);
-	void StartServer(HINSTANCE hInstance, int resID, HWND parentHwnd);
+	void OnInitDlg(HWND hWnd);
+	void StartDlg(HINSTANCE hInstance, int resID, HWND parentHwnd);
 
-	BOOL OnExit(HWND hWnd);
-
-	HWND GetHWND() { return m_hWnd; }
-
-
-	void SetRunTime();
-	//	void SetMessage()
+	void SetMatchNum(int num) { m_matchnum = num;}
+	int GetMatchNum() { return m_matchnum; }
+private:
+	int m_matchnum;
 };
 
 INT_PTR CALLBACK ServerProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
